@@ -54,11 +54,16 @@ export const getMessages=async(req,res)=>{
             participants:{$all:[senderId,userToChatId]} 
         }).populate("messages");
 
-        res.status(200).json(conversation.messages);    
+        if(!conversation){
+            return res.status(200).json([])
+        }
+
+
+        res.status(200).json(conversation.messages);     
     } catch (error) {
         console.log("error in get message controller",error.message);
         return res.status(500).json({
-            success:false,
+            success:false, 
             error:'Internal Server Error'
 
 
